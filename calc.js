@@ -1,13 +1,13 @@
 buttonList = document.getElementsByClassName("calc-button");
-screenTag = document.getElementsByClassName("screen")[0];
+screenTag = document.getElementById("output");
 numHolder = "";
 trackedSign = "";
 prevClicked = "";
 signDictionary = {
   "+": (a, b) => a + b,
   "-": (a, b) => a - b,
-  x: (a, b) => a * b,
-  "/": (a, b) => a / b
+  "×": (a, b) => a * b,
+  "÷": (a, b) => a / b
 };
 signKeys = Object.keys(signDictionary);
 
@@ -28,7 +28,7 @@ function replaceScreenValue(evt) {
       screenTag.innerHTML = buttonValue;
       prevClicked = buttonValue;
       return;
-    }   
+    }
     newValue = currValue + buttonValue;
     screenTag.innerHTML = newValue;
   }
@@ -40,64 +40,67 @@ function handleSymbol(button, currValue) {
   if (buttonValue == "C") {
     screenTag.innerHTML = 0;
     numHolder = "";
+    if (trackedSign != "") {
+      trackedSign.classList.remove("sign-clicked");
+    }
     trackedSign = "";
     prevClicked = "";
-  } else if (buttonValue == "&lt;--") {
+  } else if (buttonValue == "«") {
     if (currValue.length == 1) {
       newValue = 0;
     } else {
       newValue = currValue.slice(0, -1);
     }
     screenTag.innerHTML = newValue;
-  } 
-  else if (buttonValue == "+/-"){
+  } else if (buttonValue == "±") {
     let floatForm = -parseFloat(currValue);
     screenTag.innerHTML = floatForm.toString();
-  }
-
-  else if (buttonValue == ".") {
+  } else if (buttonValue == ".") {
     if (!currValue.includes(".")) {
       newValue = currValue + buttonValue;
       screenTag.innerHTML = newValue;
     }
   } else {
-    arithHelper(buttonValue);
-    trackedSign = button;
+    arithHelper(button);
+    if (signKeys.includes(buttonValue)) {
+      button.classList.add("sign-clicked");
+      if (trackedSign != "") {
+        if (buttonValue != trackedSign.innerHTML){
+          trackedSign.classList.remove("sign-clicked");
+        }
+      }
+      trackedSign = button;
+    }
   }
   numHolder = screenTag.innerHTML;
 }
 
-function arithHelper(sign) {
-    if (signKeys.includes(prevClicked)) {
-        trackedSign = button;
-        return;
-    }
+function arithHelper(button) {
+  var sign = button.innerHTML;
+  if (signKeys.includes(prevClicked) && sign != "=") {
+    // trackedSign = button;
+    return;
+  }
   if (numHolder == "" && screenTag.innerHTML == 0) {
     return;
   }
   if (numHolder == "") {
     numHolder = screenTag.innerHTML;
-    // if (signKeys.includes(sign)) {
-    //   screenTag.innerHTML = 0;
-    // }
     return;
   }
   if (sign == "=") {
-    // if (rightNum != ""){
-    //     leftNum = rightNum;
-    // }
-    // rightNum = screenTag.innerHTML;
     if (signKeys.includes(trackedSign.innerHTML)) {
       screenTag.innerHTML = signDictionary[trackedSign.innerHTML](
         parseFloat(numHolder),
         parseFloat(screenTag.innerHTML)
       );
     }
+    if (trackedSign != "") {
+      trackedSign.classList.remove("sign-clicked");
+    }
+    trackedSign = "";
   }
-  if (screenTag.innerHTML != "0" && signKeys.includes(trackedSign.innerHTML)) {
-    numHolder = screenTag.innerHTML;
-  }
-//   if (signKeys.includes(sign)) {
-//     screenTag.innerHTML = 0;
-//   }
+  // if (screenTag.innerHTML != "0" && signKeys.includes(trackedSign.innerHTML)) {
+  //   numHolder = screenTag.innerHTML;
+  // }
 }
