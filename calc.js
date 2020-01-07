@@ -32,6 +32,9 @@ function replaceScreenValue(evt) {
     newValue = currValue + buttonValue;
     screenTag.innerHTML = newValue;
   }
+  if (screenTag.innerHTML.length > 15){
+    screenTag.innerHTML = screenTag.innerHTML.slice(0, 16);
+  }
   prevClicked = buttonValue;
 }
 
