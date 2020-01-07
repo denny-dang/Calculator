@@ -43,31 +43,31 @@ body {
     background-color: #bbbcbe;
 }
 
-.calc-button:last-child {
-    background-color: #df974c;
+.symbol {
+    background-color: #3dac4c;
     color: white;
 }
 
-.calc-button:last-child:hover {
-    background-color: #dfb07e;
+.symbol:hover {
+    background-color: #6fda7d;
 }
 
-.calc-button:last-child:active {
-    background-color: #dd8d37;
+.symbol:active {
+    background-color: #2e863a;
 }
 
 .calc-row .sign-clicked {
-    color: #df974c;
+    color: #3dac4c;
     background-color: white;
 }
 
 .sign-clicked:last-child:hover {
-    color: #df974c;
+    color: #3dac4c;
     background-color: white;
 }
 
 .sign-clicked:last-child:active {
-    color: #df974c;
+    color: #3dac4c;
     background-color: white;
 }
 
