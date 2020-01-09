@@ -24,7 +24,11 @@ function replaceScreenValue(evt) {
   if (isNaN(parseFloat(buttonValue))) {
     handleSymbol(button, currValue);
   } else if (buttonValue >= 0 && buttonValue < 10) {
-    if (currValue == "0" || signKeys.includes(prevClicked) || currValue == "Overflow") {
+    if (
+      currValue == "0" ||
+      signKeys.includes(prevClicked) ||
+      currValue == "Overflow"
+    ) {
       screenTag.innerHTML = buttonValue;
       prevClicked = buttonValue;
       return;
@@ -32,7 +36,7 @@ function replaceScreenValue(evt) {
     newValue = currValue + buttonValue;
     screenTag.innerHTML = newValue;
   }
-  if (screenTag.innerHTML.length > 16){
+  if (screenTag.innerHTML.length > 16) {
     screenTag.innerHTML = screenTag.innerHTML.slice(0, 16);
   }
   prevClicked = buttonValue;
@@ -56,7 +60,7 @@ function handleSymbol(button, currValue) {
     }
     screenTag.innerHTML = newValue;
   } else if (buttonValue == "±") {
-    if (currValue[0] != "-" && currValue.length > 15){
+    if (currValue[0] != "-" && currValue.length > 15) {
       return;
     }
     let floatForm = -parseFloat(currValue);
@@ -71,7 +75,7 @@ function handleSymbol(button, currValue) {
     if (signKeys.includes(buttonValue)) {
       button.classList.add("sign-clicked");
       if (trackedSign != "") {
-        if (buttonValue != trackedSign.innerHTML){
+        if (buttonValue != trackedSign.innerHTML) {
           trackedSign.classList.remove("sign-clicked");
         }
       }
@@ -100,7 +104,10 @@ function arithHelper(button) {
         parseFloat(numHolder),
         parseFloat(screenTag.innerHTML)
       );
-      if (screenTag.innerHTML.length > 15 && !screenTag.innerHTML.includes(".")){
+      if (
+        screenTag.innerHTML.length > 16 &&
+        !screenTag.innerHTML.includes(".")
+      ) {
         screenTag.innerHTML = "Overflow";
       }
     }
